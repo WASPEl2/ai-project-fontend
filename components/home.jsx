@@ -30,6 +30,7 @@ export default function Homepage() {
     <SafeAreaView style={{
                 position: "absolute",
                 width:"100%",
+                
             }}>
 
         

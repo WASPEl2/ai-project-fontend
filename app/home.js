@@ -8,9 +8,9 @@ import SplashScreen from "../components/sp/sp";
 import Homepage from "../components/home";
 
 const Home = () => {
-  // if (__DEV__) {
-  //   console.error = (error) => {};
-  // }
+  if (__DEV__) {
+    console.error = (error) => {};
+  }
 
   const router = useRouter();
 
