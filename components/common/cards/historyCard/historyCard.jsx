@@ -4,14 +4,14 @@ import { View, Text, Image, TouchableOpacity } from 'react-native'
 import styles from './historyCard.style'
 import { images } from '../../../../constants'
 
-const HistoryCard = ({id, img, handleCardPress}) => {
+const HistoryCard = ({responseData, img, handleCardPress}) => {
 
   
 
   return (
     <TouchableOpacity 
       style={styles.container}
-      onPress={() => handleCardPress(id)}
+      onPress={() => handleCardPress(responseData,img)}
       >
       <View>
         <View style={styles.imageContainer}>

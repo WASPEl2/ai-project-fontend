@@ -1,18 +1,53 @@
-import react from "react";
-import { View, Text, SafeAreaView, FlatList, ActivityIndicator } from "react-native";
+import react, { useEffect, useState } from "react";
+import { View, Text, SafeAreaView, FlatList, ActivityIndicator, TouchableOpacity } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from "expo-router";
+
 
 import styles from "./history.style";
-import { useRouter } from "expo-router";
 import HistoryCard from "../../common/cards/historyCard/historyCard"
 import { COLORS } from "../../../constants";
 import useFetch from "../../../hook/useFetch"
+import { useNavigation } from "@react-navigation/native";
 
 const History = () => {
     const router = useRouter();
-    const {data ,isLoading ,error} =useFetch('history')
+    const navigation = useNavigation();
 
-    const handleCardPress = (id) => {
-    router.push(`/herbs-details/${id}`);
+
+    const [classificationHistory, setClassificationHistory] = useState([]); // Initialize classificationHistory state
+    const { data, isLoading, error } = useFetch('history');
+
+    const loadHistoryFromStorage = async () => {
+        try {
+            const storedHistory = await AsyncStorage.getItem('classificationHistory');
+            if (storedHistory) {
+            return JSON.parse(storedHistory);
+            }
+            return null; // Return null if no history is found
+        } catch (error) {
+            console.error('Error loading history from storage:', error);
+            return null;
+        }
+    };
+
+    // Load history from AsyncStorage on component mount
+    useEffect(() => {
+        const loadHistory = async () => {
+            const historyFromStorage = await loadHistoryFromStorage();
+
+            if (historyFromStorage) {
+                setClassificationHistory(historyFromStorage);
+            }
+        };
+        loadHistory();
+    }, []);
+
+    const handleCardPress = (data,image) => {
+    navigation.navigate("result", {
+            responseData: data,
+            image: image,
+          });
     };
 
     return (
@@ -27,15 +62,16 @@ const History = () => {
                 <Text>Something went wrong</Text>
                 ) : (
                 <FlatList
-                    data={data}
+                    data={classificationHistory}
                     renderItem={({ item }) => (
-                    <HistoryCard
-                        id={item.herb_id}
-                        img={item.herb_image}
-                        handleCardPress={() => handleCardPress(item.herb_id.toString())}
-                    />
+                        <HistoryCard
+                        img={item.imageUri}
+                        responseData={item.responseData}
+                        handleCardPress={handleCardPress}
+                        />
                     )}
-                    keyExtractor={(item, index) => (item.herb_id ? item.herb_id.toString() : index.toString())}
+                    
+                    keyExtractor={(item, index) =>  index.toString()}
                     contentContainerStyle={{
                             columnGap: 26,
                             // ...Platform.select({

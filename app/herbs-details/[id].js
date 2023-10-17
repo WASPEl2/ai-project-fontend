@@ -34,7 +34,6 @@ const herbDetails = () => {
     refetch();
     setRefreshing(false);
   }, []);
-  console.log(data[0]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

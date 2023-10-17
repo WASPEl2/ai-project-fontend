@@ -9,6 +9,7 @@ import { Stack, useRouter } from "expo-router";
 import { COLORS, FONT, icons, images } from "../constants";
 import { ScreenHeaderBtn } from "../components";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 export default function Camerapage() {
@@ -17,9 +18,50 @@ export default function Camerapage() {
 
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [image, setImage] = useState(null);
+  const [useCamera, setUseCamera] = useState(false);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const cameraRef = useRef(null);
+
+  const saveHistoryToStorage = async (newHistory) => {
+    try {
+      // Retrieve the existing history from AsyncStorage
+      let updatedHistory = [];
+      if (Array.isArray(newHistory)) {
+        updatedHistory.push(...newHistory);
+      } else {
+        updatedHistory.push(newHistory);
+      }
+      console.log(updatedHistory);
+      console.log("newHistory");
+
+      const existingHistory = await AsyncStorage.getItem(
+        "classificationHistory"
+      );
+      if (existingHistory) {
+        // Make sure existingHistory is an array
+        const parsedHistory = JSON.parse(existingHistory);
+        if (Array.isArray(parsedHistory)) {
+          updatedHistory.push(...parsedHistory);
+        } else {
+          updatedHistory.push(parsedHistory);
+        }
+      }
+
+      // Save the updated history back to AsyncStorage
+      await AsyncStorage.setItem(
+        "classificationHistory",
+        JSON.stringify(updatedHistory)
+      );
+      console.log(updatedHistory);
+      // await AsyncStorage.clear();
+      console.log("saved!!");
+    } catch (error) {
+      console.log("have some error", error);
+
+      console.error("Error saving history to storage:", error);
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -34,6 +76,7 @@ export default function Camerapage() {
       try {
         const data = await cameraRef.current.takePictureAsync();
         setImage(data.uri);
+        setUseCamera(true);
       } catch (error) {
         console.log(error);
       }
@@ -83,6 +126,15 @@ export default function Camerapage() {
 
         if (response.status === 200) {
           const data = response.data;
+          if (useCamera) {
+            await MediaLibrary.createAssetAsync(image);
+            setUseCamera(false);
+          }
+          await saveHistoryToStorage({
+            imageUri: image,
+            responseData: data,
+          });
+          console.log("navigating!!");
           navigation.navigate("result", {
             responseData: data,
             image: image,
@@ -234,7 +286,7 @@ export default function Camerapage() {
                 title="Retake photo"
                 onPress={() => setImage(null)}
                 style={styles.textresult}
-                color={COLORS.secondary}
+                textColor={COLORS.secondary}
               />
             </View>
             <View
@@ -248,7 +300,7 @@ export default function Camerapage() {
               <Button
                 title="next"
                 onPress={sendPicture}
-                color={COLORS.secondary}
+                textColor={COLORS.secondary}
               />
             </View>
           </View>

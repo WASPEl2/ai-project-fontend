@@ -1,18 +1,26 @@
 import React, { useState ,useEffect, useRef } from 'react'
 import { Animated, SafeAreaView, ScrollView ,View, Image,TouchableOpacity } from 'react-native'
 
+import { COLORS, images } from '../constants';
+import { useRouter } from 'expo-router';
+import { Dimensions } from "react-native";
+
+
+
 // import { camera } from '../app/camera';
 
 import {
   Welcome, History, Herbs
 } from "./";
-import { COLORS, images } from '../constants';
-import { useRouter } from 'expo-router';
+
 
 
 
 export default function Homepage() {
     const router = useRouter();
+
+    const { height, width } = Dimensions.get("window");
+
     const fadeInOutAnimation = useRef(new Animated.Value(0)).current;
 
     const [searchTerm, setSearchTerm] = useState("");
@@ -36,7 +44,7 @@ export default function Homepage() {
         
         <ScrollView showsVerticalScrollIndicator={false} >
           <Animated.View style={{
-            flex: 1,
+            flex: 4,
             zIndex: 1,
             opacity: fadeInOutAnimation, // Apply fade-in/fade-out animation
             alignItems: 'center',
@@ -55,9 +63,13 @@ export default function Homepage() {
 
             <Herbs />
             <History />
-            <TouchableOpacity style={{
+            
+          </Animated.View>
+          
+        </ScrollView>
+        <TouchableOpacity style={{
               position: 'absolute',
-              bottom:-50,
+              top:height-56,
               right:30,
               width:66,
               height: 66,
@@ -91,9 +103,6 @@ export default function Homepage() {
                 }}
               />
             </TouchableOpacity>
-          </Animated.View>
-        </ScrollView>
-        
     </SafeAreaView>
   )
 }

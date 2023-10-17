@@ -4,11 +4,16 @@ import { Entypo } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { FONT } from '../../constants';
 
-export default function Button({ title, onPress, icon, color }) {
+export default function Button({ title, onPress, icon, color, textColor }) {
   return (
     <TouchableOpacity onPress={onPress} style={styles.button}>
       <Entypo name={icon} size={28} color={color ? color : '#f1f1f1'} />
-      <Text style={styles.text}>{title}</Text>
+      <Text style={{    
+        fontFamily:FONT.bold,
+        fontSize: 16,
+        color: textColor ? textColor : '#f1f1f1',
+        marginLeft: 10,
+      }}>{title}</Text>
     </TouchableOpacity>
   );
 }
@@ -22,9 +27,6 @@ const styles = StyleSheet.create({
     
   },
   text: {
-    fontFamily:FONT.bold,
-    fontSize: 16,
-    color: '#f1f1f1',
-    marginLeft: 10,
+
   },
 });

@@ -6,6 +6,7 @@ import { ScreenHeaderBtn } from "../components";
 import { COLORS, icons, images } from "../constants";
 import Svg, { Circle } from "react-native-svg";
 import { Dimensions } from "react-native";
+import { TouchableOpacity } from "react-native";
 
 const ChartSegment = ({
   index,
@@ -41,14 +42,8 @@ const ResultPage = ({ size = 200, strokeWidth = 35 }) => {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const { height, width } = Dimensions.get("window");
-  const donutColor = [
-    "rgba(85, 183, 116, 1)",
-    "rgba(224, 246, 207, 0.6)",
-    "rgba(159, 209, 121, 1)",
-    "rgba(85, 183, 116, 0.6)",
-    "rgba(85, 183, 116, 0.47)",
-    "rgba(247, 230, 128, 1)",
-  ];
+  // const donutColor = ["#79DC78", "#97E47E", "#BFEF88", "#E4F78F", "#FDFC96"];
+  const donutColor = ["#7CB650", "#9ACD32", "#FFEF00", "#FFFC4D", "#C9C9C9"];
 
   const [startAngles, setStartAngles] = useState([]);
   const [data, setData] = useState([]);
@@ -71,11 +66,11 @@ const ResultPage = ({ size = 200, strokeWidth = 35 }) => {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+    <SafeAreaView style={{ flex: 2, backgroundColor: COLORS.white }}>
       <Stack.Screen
         options={{
-          headerStyle: { backgroundColor: "rgba(255, 255, 255, 0)" },
-          headerTransparent: true,
+          headerStyle: { backgroundColor: COLORS.white },
+          // headerTransparent: true,
           headerShadowVisible: false,
           headerBackVisible: false,
           headerLeft: () => (
@@ -140,7 +135,7 @@ const ResultPage = ({ size = 200, strokeWidth = 35 }) => {
               cy={center}
               r={radius}
               strokeWidth={strokeWidth}
-              stroke={donutColor[5]}
+              stroke={donutColor[donutColor.length - 1]}
             />
             {route.params.responseData.ranking.map((item, index) => (
               <ChartSegment
@@ -168,6 +163,42 @@ const ResultPage = ({ size = 200, strokeWidth = 35 }) => {
           </Text>
         </View>
       </View>
+      <TouchableOpacity
+        style={{
+          position: "absolute",
+          top: height - 56,
+          right: 30,
+          width: 66,
+          height: 66,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: COLORS.secondary,
+          borderRadius: 66 / 2,
+          ...Platform.select({
+            ios: {
+              shadowColor: COLORS.black,
+              shadowOffset: { width: 2, height: 2 },
+              shadowOpacity: 0.2,
+              shadowRadius: 4,
+            },
+            android: {
+              elevation: 4,
+            },
+          }),
+        }}
+        onPress={(id) => {
+          router.push("camera");
+        }}
+      >
+        <Image
+          source={images.camera}
+          resizeMode="contain"
+          style={{
+            width: "60%",
+            height: "60%",
+          }}
+        />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
