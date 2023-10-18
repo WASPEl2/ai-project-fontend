@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.tertiary,
   },
   searchWrapper: {
-    flex: 1,
     marginVertical: 13,
     marginHorizontal: 12,
     justifyContent: "center",

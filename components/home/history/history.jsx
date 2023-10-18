@@ -1,8 +1,7 @@
-import react, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, SafeAreaView, FlatList, ActivityIndicator, TouchableOpacity } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from "expo-router";
-
 
 import styles from "./history.style";
 import HistoryCard from "../../common/cards/historyCard/historyCard"
@@ -13,80 +12,102 @@ import { useNavigation } from "@react-navigation/native";
 const History = () => {
     const router = useRouter();
     const navigation = useNavigation();
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(false);
 
-
-    const [classificationHistory, setClassificationHistory] = useState([]); // Initialize classificationHistory state
-    const { data, isLoading, error } = useFetch('history');
+    const [classificationHistory, setClassificationHistory] = useState([]);
 
     const loadHistoryFromStorage = async () => {
         try {
             const storedHistory = await AsyncStorage.getItem('classificationHistory');
             if (storedHistory) {
-            return JSON.parse(storedHistory);
+                return JSON.parse(storedHistory);
             }
-            return null; // Return null if no history is found
+            return null;
         } catch (error) {
+            setError(true);
             console.error('Error loading history from storage:', error);
             return null;
         }
     };
 
-    // Load history from AsyncStorage on component mount
-    useEffect(() => {
-        const loadHistory = async () => {
-            const historyFromStorage = await loadHistoryFromStorage();
+    const refetchData = async () => {
+        // Perform the refetch action here
+        setIsLoading(true);
+        setError(false);
 
-            if (historyFromStorage) {
-                setClassificationHistory(historyFromStorage);
-            }
-        };
-        loadHistory();
+        const historyFromStorage = await loadHistoryFromStorage();
+
+        if (historyFromStorage) {
+            setClassificationHistory(historyFromStorage);
+        } else{
+            setClassificationHistory(null)
+        }
+
+        setIsLoading(false);
+    };
+
+    useEffect(() => {
+        refetchData();
     }, []);
 
-    const handleCardPress = (data,image) => {
-    navigation.navigate("result", {
+    const clearHistory = async () => {
+        try {
+            await AsyncStorage.clear();
+            refetchData();
+        } catch (error) {
+            console.error('Error clearing AsyncStorage:', error);
+        }
+    }
+
+    const handleCardPress = (data, image) => {
+        navigation.navigate("result", {
             responseData: data,
             image: image,
-          });
+        });
     };
 
     return (
         <View style={styles.container}>
-            <View style={styles.headerContainer}> 
+            <View style={styles.headerContainer}>
                 <Text style={styles.headerText}>History</Text>
+                <View style={styles.headerContainer}>
+                    <TouchableOpacity onPress={clearHistory}>
+                        <Text style={styles.headerBtn}>clear</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={refetchData}>
+                        <Text style={styles.headerBtn}>refetch</Text>
+                    </TouchableOpacity>
+                    
+                </View>
+                
             </View>
             <View style={styles.cardContainer}>
                 {isLoading ? (
-                <ActivityIndicator size='large' color={COLORS.white} />
+                    <ActivityIndicator size='large' color={COLORS.white} />
                 ) : error ? (
-                <Text>Something went wrong</Text>
+                    <Text>Something went wrong</Text>
                 ) : (
-                <FlatList
-                    data={classificationHistory}
-                    renderItem={({ item }) => (
-                        <HistoryCard
-                        img={item.imageUri}
-                        responseData={item.responseData}
-                        handleCardPress={handleCardPress}
-                        />
-                    )}
-                    
-                    keyExtractor={(item, index) =>  index.toString()}
-                    contentContainerStyle={{
+                    <FlatList
+                        data={classificationHistory}
+                        renderItem={({ item }) => (
+                            <HistoryCard
+                                img={item.imageUri}
+                                responseData={item.responseData}
+                                handleCardPress={handleCardPress}
+                            />
+                        )}
+
+                        keyExtractor={(item, index) => index.toString()}
+                        contentContainerStyle={{
                             columnGap: 26,
-                            // ...Platform.select({
-                            //     android: {
-                            //         paddingLeft: 70,
-                            //         paddingRight: 16,
-                            //     },
-                            // }),
                             marginTop: 4,
                             paddingLeft: 70,
                             paddingRight: 16,
                         }}
-                    showsHorizontalScrollIndicator={false}
-                    horizontal
-                />
+                        showsHorizontalScrollIndicator={false}
+                        horizontal
+                    />
                 )}
             </View>
         </View >

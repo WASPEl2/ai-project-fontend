@@ -32,8 +32,6 @@ export default function Camerapage() {
       } else {
         updatedHistory.push(newHistory);
       }
-      console.log(updatedHistory);
-      console.log("newHistory");
 
       const existingHistory = await AsyncStorage.getItem(
         "classificationHistory"
@@ -53,12 +51,7 @@ export default function Camerapage() {
         "classificationHistory",
         JSON.stringify(updatedHistory)
       );
-      console.log(updatedHistory);
-      // await AsyncStorage.clear();
-      console.log("saved!!");
     } catch (error) {
-      console.log("have some error", error);
-
       console.error("Error saving history to storage:", error);
     }
   };

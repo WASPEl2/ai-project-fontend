@@ -33,19 +33,12 @@ export default function Homepage() {
       }),
     ]).start();;
       }, []);
-
   return (
-    <SafeAreaView style={{
-                position: "absolute",
-                width:"100%",
-                
-            }}>
-
-        
-        <ScrollView showsVerticalScrollIndicator={false} >
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+      >
           <Animated.View style={{
-            flex: 4,
-            zIndex: 1,
             opacity: fadeInOutAnimation, // Apply fade-in/fade-out animation
             alignItems: 'center',
             justifyContent: 'center',
@@ -66,8 +59,8 @@ export default function Homepage() {
             
           </Animated.View>
           
-        </ScrollView>
-        <TouchableOpacity style={{
+      </ScrollView>
+      <TouchableOpacity style={{
               position: 'absolute',
               top:height-56,
               right:30,
@@ -102,7 +95,7 @@ export default function Homepage() {
                   
                 }}
               />
-            </TouchableOpacity>
+        </TouchableOpacity>
     </SafeAreaView>
-  )
+  );
 }

@@ -66,7 +66,7 @@ const ResultPage = ({ size = 200, strokeWidth = 35 }) => {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 2, backgroundColor: COLORS.white }}>
+    <SafeAreaView style={{ flex: 2, backgroundColor: COLORS.wheat }}>
       <Stack.Screen
         options={{
           headerStyle: { backgroundColor: COLORS.white },
@@ -151,16 +151,35 @@ const ResultPage = ({ size = 200, strokeWidth = 35 }) => {
             ))}
           </Svg>
         </View>
-        <View>
-          <Text>Ranking:</Text>
-          <Text>
-            {route.params.responseData.ranking.map((item) => (
-              <View key={item.label}>
+        <View
+          style={{
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {route.params.responseData.ranking.map((item) => (
+            <TouchableOpacity>
+              <View
+                style={{
+                  backgroundColor: COLORS.white,
+                  // marginHorizontal: "7.5%",
+                }}
+              >
+                {/* <Svg viewBox={`0 0 ${size} ${size}`}>
+                  <Circle
+                    cx={center}
+                    cy={center}
+                    r={radius}
+                    strokeWidth={strokeWidth}
+                    stroke={donutColor[donutColor.length - 1]}
+                  />
+                </Svg> */}
                 <Text>Label: {item.label}</Text>
                 <Text>Probability: {item.probability}</Text>
               </View>
-            ))}
-          </Text>
+            </TouchableOpacity>
+          ))}
         </View>
       </View>
       <TouchableOpacity

@@ -45,7 +45,6 @@ export default function SplashScreen() {
     }}>
       <Animated.View style={{
         flex: 1,
-        zIndex: 1,
         opacity: fadeInOutAnimation, // Apply fade-in/fade-out animation
         alignItems: 'center',
         justifyContent: 'center',
