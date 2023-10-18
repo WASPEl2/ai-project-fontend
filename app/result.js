@@ -3,10 +3,11 @@ import { View, Text, SafeAreaView, Image, ScrollView } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { Stack, useRouter } from "expo-router";
 import { ScreenHeaderBtn } from "../components";
-import { COLORS, icons, images } from "../constants";
+import { COLORS, FONT, icons, images } from "../constants";
 import Svg, { Circle } from "react-native-svg";
 import { Dimensions } from "react-native";
 import { TouchableOpacity } from "react-native";
+import { color } from "react-native-reanimated";
 
 const ChartSegment = ({
   index,
@@ -65,12 +66,16 @@ const ResultPage = ({ size = 200, strokeWidth = 35 }) => {
     refresh();
   }, []);
 
+  const handleCardPress = (id) => {
+    router.push(`/herbs-details/${id}`);
+  };
+
   return (
-    <SafeAreaView style={{ flex: 2, backgroundColor: COLORS.wheat }}>
+    <SafeAreaView style={{ flex: 3, backgroundColor: COLORS.white }}>
       <Stack.Screen
         options={{
-          headerStyle: { backgroundColor: COLORS.white },
-          // headerTransparent: true,
+          headerStyle: { backgroundColor: "rgba(0, 0, 0, 0)" },
+          headerTransparent: true,
           headerShadowVisible: false,
           headerBackVisible: false,
           headerLeft: () => (
@@ -92,6 +97,7 @@ const ResultPage = ({ size = 200, strokeWidth = 35 }) => {
       />
       <View
         style={{
+          top: 78,
           flex: 3,
           width: "100%",
           alignItems: "center",
@@ -114,7 +120,6 @@ const ResultPage = ({ size = 200, strokeWidth = 35 }) => {
             height: width / 2,
             alignItems: "center",
             marginTop: 25,
-            // backgroundColor: "black",
           }}
         >
           <Image
@@ -125,7 +130,6 @@ const ResultPage = ({ size = 200, strokeWidth = 35 }) => {
               height: "60%",
               margin: "20%",
               borderRadius: 1000,
-              // borderWidth: 2,
             }}
             resizeMode="cover"
           />
@@ -153,30 +157,75 @@ const ResultPage = ({ size = 200, strokeWidth = 35 }) => {
         </View>
         <View
           style={{
+            marginTop: 40,
             width: "100%",
-            justifyContent: "center",
             alignItems: "center",
           }}
         >
-          {route.params.responseData.ranking.map((item) => (
-            <TouchableOpacity>
+          {route.params.responseData.ranking.map((item, index) => (
+            <TouchableOpacity onPress={() => handleCardPress(item.herb_id)}>
               <View
                 style={{
-                  backgroundColor: COLORS.white,
-                  // marginHorizontal: "7.5%",
+                  width: "60%",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingBottom: 18,
+                  marginBottom: 9,
+                  borderBottomWidth: 3,
+                  borderBottomColor: COLORS.tertiary,
+                  borderStyle: "dotted",
+                  alignItems: "center",
                 }}
               >
-                {/* <Svg viewBox={`0 0 ${size} ${size}`}>
-                  <Circle
-                    cx={center}
-                    cy={center}
-                    r={radius}
-                    strokeWidth={strokeWidth}
-                    stroke={donutColor[donutColor.length - 1]}
-                  />
-                </Svg> */}
-                <Text>Label: {item.label}</Text>
-                <Text>Probability: {item.probability}</Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <View
+                    style={{
+                      height: 80,
+                      width: 80,
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <View style={{ position: "absolute" }}>
+                      <Text style={{ fontFamily: FONT.bold, fontSize: 14 }}>
+                        {item.probability.toFixed(2)}
+                      </Text>
+                    </View>
+                    <Svg viewBox={`0 0 ${size} ${size}`}>
+                      <Circle
+                        cx={center}
+                        cy={center}
+                        r={radius}
+                        strokeWidth={strokeWidth / 2}
+                        stroke={donutColor[donutColor.length - 1]}
+                      />
+                      <ChartSegment
+                        index={index}
+                        center={center}
+                        radius={radius}
+                        strokeWidth={strokeWidth / 2}
+                        color={donutColor[index]}
+                        circumference={circumference}
+                        probability={item.probability}
+                        angle={-90}
+                      />
+                    </Svg>
+                  </View>
+                  <View style={{ marginLeft: 22 }}>
+                    <Text style={{ fontFamily: FONT.bold, color: "#243465" }}>
+                      {item.label}
+                    </Text>
+                    <Text style={{ fontFamily: FONT.bold, color: "#848A9C" }}>
+                      ดูเพิ่มเติม
+                    </Text>
+                  </View>
+                </View>
+
+                <Image
+                  source={icons.path}
+                  resizeMode="cover"
+                  style={{ right: -80, width: 8, height: 8 }}
+                />
               </View>
             </TouchableOpacity>
           ))}
@@ -185,7 +234,7 @@ const ResultPage = ({ size = 200, strokeWidth = 35 }) => {
       <TouchableOpacity
         style={{
           position: "absolute",
-          top: height - 56,
+          top: height - 76,
           right: 30,
           width: 66,
           height: 66,

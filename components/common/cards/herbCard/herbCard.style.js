@@ -4,7 +4,7 @@ import { COLORS, FONT, SIZES, SHADOWS } from "../../../../constants";
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row", // Added to display items horizontally
+    flexDirection: "row", 
     width: 147,
     height: 62,
     alignItems: "center",
@@ -24,15 +24,15 @@ const styles = StyleSheet.create({
     }),
   },
   imageContainer: {
-    marginHorizontal: 10, // Add margin to separate image and text
+    marginHorizontal: 10, 
   },
   image: {
-    width: 50, // Adjust the width as needed
-    height: 50, // Adjust the height as needed
-    borderRadius: 20, // Add border radius for a rounded appearance
+    width: 50,
+    height: 50, 
+    borderRadius: 20, 
   },
   textContainer: {
-    flex: 1, // Added to make the text take up available space
+    flex: 1, 
   },
   text: {
     fontFamily: FONT.regular,

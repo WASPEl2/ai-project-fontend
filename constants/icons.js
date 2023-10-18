@@ -1,6 +1,7 @@
 import search from "../assets/icons/search.png";
 import home from "../assets/icons/home.png";
 import left from "../assets/icons/left.png";
+import path from "../assets/icons/path.png";
 import image1 from "../assets/icons/image1.png";
 import image2 from "../assets/icons/image2.png";
 import image3 from "../assets/icons/image3.png";
@@ -13,6 +14,7 @@ import image9 from "../assets/icons/image9.png";
 import image10 from "../assets/icons/image10.png";
 
 export default {
+  path,
   search,
   home,
   left,

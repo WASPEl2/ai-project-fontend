@@ -127,7 +127,6 @@ export default function Camerapage() {
             imageUri: image,
             responseData: data,
           });
-          console.log("navigating!!");
           navigation.navigate("result", {
             responseData: data,
             image: image,

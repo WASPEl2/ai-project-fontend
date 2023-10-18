@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
     marginLeft: 71,
   },
   cardContainer: {
-    // marginLeft: 71,
     flexDirection: "row",
   },
 });

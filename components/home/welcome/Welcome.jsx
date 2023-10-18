@@ -13,8 +13,9 @@ const Welcome = (searchTerm, setSearchTerm, handleClick) => {
                     resizeMode='contain'
                 />
             </View>
-            <View style={styles.searchContainer}>
-                {/* <TouchableOpacity style={styles.searchBtn} onPress={handleClick}>
+            {/* search function */}
+            {/* <View style={styles.searchContainer}>
+                <TouchableOpacity style={styles.searchBtn} onPress={handleClick}>
                     <Image
                         source={icons.search}
                         resizeMode='contain'
@@ -30,8 +31,8 @@ const Welcome = (searchTerm, setSearchTerm, handleClick) => {
                         placeholder='search'
                         placeholderTextColor={COLORS.white}
                     />
-                </View> */}
-            </View>
+                </View>
+            </View> */}
         </View>
     )
 }

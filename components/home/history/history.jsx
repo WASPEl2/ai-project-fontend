@@ -32,7 +32,6 @@ const History = () => {
     };
 
     const refetchData = async () => {
-        // Perform the refetch action here
         setIsLoading(true);
         setError(false);
 

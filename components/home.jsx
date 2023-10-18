@@ -2,12 +2,9 @@ import React, { useState ,useEffect, useRef } from 'react'
 import { Animated, SafeAreaView, ScrollView ,View, Image,TouchableOpacity } from 'react-native'
 
 import { COLORS, images } from '../constants';
-import { useRouter } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { Dimensions } from "react-native";
 
-
-
-// import { camera } from '../app/camera';
 
 import {
   Welcome, History, Herbs
@@ -28,18 +25,23 @@ export default function Homepage() {
     Animated.sequence([
       Animated.timing(fadeInOutAnimation, {
         toValue: 1, // Fade in
-        duration: 750, // Adjust the duration as needed
+        duration: 750,
         useNativeDriver: true,
       }),
     ]).start();;
       }, []);
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
       >
           <Animated.View style={{
-            opacity: fadeInOutAnimation, // Apply fade-in/fade-out animation
+            opacity: fadeInOutAnimation,
             alignItems: 'center',
             justifyContent: 'center',
             marginBottom:60 
