@@ -23,6 +23,7 @@ const herbDetails = () => {
   const router = useRouter();
 
   const { width, height } = Dimensions.get("window");
+
   const imageWidth = 1.5 * width;
   const imageHeight = 0.8 * height;
 
@@ -39,7 +40,7 @@ const herbDetails = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <Stack.Screen
         options={{
-          headerStyle: { backgroundColor: "rgba(255, 255, 255, 0)" },
+          headerStyle: { backgroundColor: "rgba(190, 222, 165, 0)" },
           headerTransparent: true,
           headerShadowVisible: false,
           headerBackVisible: false,
@@ -65,6 +66,7 @@ const herbDetails = () => {
         refreshControl={
           <RefreshControl refershing={refreshing} onRefresh={onRefresh} />
         }
+        style={styles.container}
       >
         {isLoading ? (
           <ActivityIndicator size="large" color={COLORS.white} />
@@ -73,7 +75,7 @@ const herbDetails = () => {
         ) : data.length === 0 ? (
           <Text>No data</Text>
         ) : (
-          <View style={styles.container}>
+          <View>
             <View style={styles.bgcontainer(imageWidth, imageHeight)}></View>
             <View style={styles.textContainer}>
               <Image
@@ -104,6 +106,8 @@ const herbDetails = () => {
             </View>
             <View>
               <View style={styles.characteristicsContainer}>
+                <Text style={styles.header}>ลักษณะสำคัญ</Text>
+
                 <FlatList
                   data={data[0].herb_characteristics}
                   renderItem={({ item }) => (
@@ -135,6 +139,7 @@ const herbDetails = () => {
                 />
               </View>
               <View style={styles.propertiesContainer}>
+                <Text style={styles.header}>สรรพคุณ</Text>
                 <FlatList
                   data={data[0].properties}
                   renderItem={({ item }) => (
@@ -163,6 +168,10 @@ const herbDetails = () => {
                   showsVerticalScrollIndicator={false}
                   Vertical
                 />
+              </View>
+              <View style={styles.cautionContainer}>
+                <Text style={styles.header}>ข้อควรระวัง</Text>
+                <Text style={styles.text}>{data[0].caution}</Text>
               </View>
             </View>
           </View>

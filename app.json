@@ -5,6 +5,18 @@
       "bundler": "metro"
     },
     "name": "iSThatHerb",
-    "slug": "iSThatHerb"
+    "slug": "isthatherb",
+    "extra": {
+      "eas": {
+        "projectId": "84ee58da-97ef-402d-8a65-1bd24cdd8a7e"
+      }
+    },
+    "owner": "aekapab10",
+    "android": {
+      "package": "com.aekapab10.isthatherb"
+    },
+    "ios": {
+      "bundleIdentifier": "com.aekapab10.isthatherb"
+    }
   }
 }

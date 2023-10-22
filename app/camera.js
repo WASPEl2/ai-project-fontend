@@ -108,7 +108,7 @@ export default function Camerapage() {
         });
 
         const response = await axios.post(
-          "http://192.168.1.250:5000/api/herbs/predict",
+          "http://171.100.21.37:80/api/herbs/predict",
           formData,
           {
             headers: {

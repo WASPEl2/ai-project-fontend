@@ -32,11 +32,6 @@ export default function Homepage() {
       }, []);
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-      />
       <ScrollView
         showsVerticalScrollIndicator={false}
       >

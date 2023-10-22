@@ -4,9 +4,19 @@ import { COLORS, FONT, SIZES, SHADOWS } from "../../constants";
 
 const styles = StyleSheet.create({
   container: {
-    position: "relative",
+    flex: 1,
     width: "100%",
     backgroundColor: COLORS.white,
+    ...Platform.select({
+      ios: {
+        top: -75,
+      },
+    }),
+  },
+  header: {
+    fontFamily: FONT.bold,
+    fontSize: 16,
+    marginTop: 17,
   },
   bgcontainer: (bgwidth, bgheight) => ({
     position: "absolute",
@@ -81,6 +91,12 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.secondary,
     borderRadius: 35 / 2,
     marginRight: 10,
+  },
+  cautionContainer: {
+    backgroundColor: "rgba(219,78,78,0.69)",
+    paddingLeft: 29,
+    paddingRight: 20,
+    paddingBottom: 30,
   },
 });
 
