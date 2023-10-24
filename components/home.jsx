@@ -73,6 +73,8 @@ export default function Homepage() {
                   shadowOffset: { width: 2, height: 2 },
                   shadowOpacity: 0.2,
                   shadowRadius: 4,
+                  top:height-156,
+
                 },
                 android: {
                   elevation: 4,

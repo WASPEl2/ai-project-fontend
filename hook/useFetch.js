@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { api } from "../constants";
 
 const useFetch = (endpoint, query) => {
   const [data, setData] = useState([]);
@@ -8,7 +9,7 @@ const useFetch = (endpoint, query) => {
 
   const options = {
     method: "GET",
-    url: `http://171.100.21.37:80/api/herbs/${endpoint}`,
+    url: `http://${api}/api/herbs/${endpoint}`,
     params: { ...query },
   };
 

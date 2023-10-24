@@ -188,7 +188,7 @@ const ResultPage = ({ size = 200, strokeWidth = 35 }) => {
                   >
                     <View style={{ position: "absolute" }}>
                       <Text style={{ fontFamily: FONT.bold, fontSize: 14 }}>
-                        {item.probability.toFixed(2)}
+                        {Math.round(item.probability * 100)}%
                       </Text>
                     </View>
                     <Svg viewBox={`0 0 ${size} ${size}`}>
@@ -231,42 +231,6 @@ const ResultPage = ({ size = 200, strokeWidth = 35 }) => {
           ))}
         </View>
       </View>
-      <TouchableOpacity
-        style={{
-          position: "absolute",
-          top: height - 76,
-          right: 30,
-          width: 66,
-          height: 66,
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: COLORS.secondary,
-          borderRadius: 66 / 2,
-          ...Platform.select({
-            ios: {
-              shadowColor: COLORS.black,
-              shadowOffset: { width: 2, height: 2 },
-              shadowOpacity: 0.2,
-              shadowRadius: 4,
-            },
-            android: {
-              elevation: 4,
-            },
-          }),
-        }}
-        onPress={(id) => {
-          router.push("camera");
-        }}
-      >
-        <Image
-          source={images.camera}
-          resizeMode="contain"
-          style={{
-            width: "60%",
-            height: "60%",
-          }}
-        />
-      </TouchableOpacity>
     </SafeAreaView>
   );
 };

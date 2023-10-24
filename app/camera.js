@@ -6,7 +6,7 @@ import * as MediaLibrary from "expo-media-library";
 import * as ImagePicker from "expo-image-picker";
 import Button from "../components/camera/button";
 import { Stack, useRouter } from "expo-router";
-import { COLORS, FONT, icons, images } from "../constants";
+import { COLORS, FONT, api, icons, images } from "../constants";
 import { ScreenHeaderBtn } from "../components";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -108,7 +108,7 @@ export default function Camerapage() {
         });
 
         const response = await axios.post(
-          "http://171.100.21.37:80/api/herbs/predict",
+          `http://${api}/api/herbs/predict`,
           formData,
           {
             headers: {
